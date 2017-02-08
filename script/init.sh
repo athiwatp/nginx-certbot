@@ -54,6 +54,9 @@ else
   ls /etc/letsencrypt/live/$DOMAINNAME
 fi
 
+# Ensure read only.
+sudo chmod 600 -R /etc/letsencrypt/archive /etc/letsencrypt/live/$DOMAINNAME/privkey.pem
+
 # Use 443 instead of 80
 if [ ! -f /etc/nginx/conf.d/service.conf ]; then
   rm -f /etc/nginx/conf.d/default.conf 2>/dev/null

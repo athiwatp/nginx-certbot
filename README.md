@@ -8,9 +8,10 @@ TLS/SSL by Certbot with auto renewal via Nginx on Ubuntu 16.04 (xenial)
 
 ## Deployment
 ```shell
-
+# TODO
 ```
 
 # TODO
-- Provide subdomain.
-- Secure `/etc/letsencrypt/live/$DOMAINNAME/privkey.pem`
+- Provide subdomain script.
+- Deploy with docker-compose.
+- Deploy with docker machine.
