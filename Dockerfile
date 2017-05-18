@@ -1,26 +1,25 @@
-FROM nginx:alpine
+FROM alpine
 MAINTAINER katopz <katopz@gmail.com>
 
 # Nginx's config
-RUN mkdir -p /etc/nginx/conf.d
-ADD etc/nginx/conf.d/service.conf /etc/nginx/conf.d/
+COPY etc/nginx/conf.d etc/nginx/conf.d
 
-# Initial, Will ask for certificate.
-ADD script/init.sh /usr/src/
+# Default page
+COPY var/www/html /var/www/html
 
 # Renewal, Add to daily cron
-ADD script/renewal.sh /etc/cron.daily/
+COPY root/renew.sh /etc/cron.daily/renew.sh
 
 # Ensure excutable
-RUN \
- chmod +x /usr/src/init.sh && \
- chmod +x /etc/cron.daily/renewal.sh
+RUN chmod u+x /etc/cron.d/renew.sh
 
 # TLS/SSL
 RUN mkdir -p /etc/ssl
-ADD /etc/ssl/dhparams.pem /etc/ssl/
+COPY /etc/ssl/dhparams.pem /etc/ssl/
 RUN chmod 600 /etc/ssl/dhparams.pem
 
+# Volumes
+VOLUME ["/etc/ssl/", "/etc/letsencrypt/live"]
+
 # Entry
-WORKDIR /usr/src
-ENTRYPOINT ./init.sh
+WORKDIR /root

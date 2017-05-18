@@ -1,17 +1,44 @@
 version: '3'
 services:
   nginx:
-    image: rabbotio/nginx-certbot
-    container_name: nginx
+    build: .
+    image: nginx-certbot
+    container_name: nginx-certbot
     env_file: .env
-    restart: always
-
+    restart: on-failure
+    networks:
+      - back
+    volumes:
+      - /etc/ssl/dhparams.pem:/etc/ssl/dhparams.pem
+      - /etc/letsencrypt/live:/etc/letsencrypt/live
     logging:
       driver: json-file
       options:
         max-size: "10m"
         max-file: "5"
-
     ports:
       - "80:80"
       - "443:443"
+    command: ". ./dhparam.sh"
+
+  certbot:
+    image: certbot:latest
+    container_name: certbot
+    env_file: .env
+    restart: on-failure
+    environment:
+      - DOMAIN=$DOMAIN
+      - CERTBOT_EMAIL=$CERTBOT_EMAIL
+    networks:
+      - back
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/lib/letsencrypt:/var/lib/letsencrypt
+      - /var/log/letsencrypt:/var/log/letsencrypt
+    ports:
+      - "80:80"
+      - "443:443"
+    command: "DOMAIN=$DOMAIN CERTBOT_EMAIL=$CERTBOT_EMAIL . ./init.sh"
+
+networks:
+  back:
