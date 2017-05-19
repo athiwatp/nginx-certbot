@@ -7,15 +7,16 @@ services:
     image: rabbotio/nginx-certbot
     restart: on-failure
     volumes:
-      - ./etc/nginx/conf.d:/etc/nginx/conf.d
-      - ./etc/ssl/dhparams.pem:/etc/ssl/dhparams.pem
-      - ./var/www/html:/var/www/html
+      - etc-nginx-conf.d:/etc/nginx/conf.d
+      - etc-ssl:/etc/ssl
+      - var-www-html:/var/www/html
+      - etc-letsencrypt:/etc/letsencrypt
+      - var-log-letsencrypt:/var/log/letsencrypt
       - ./root:/root
     links:
       - nginx
       - certbot
     command:
-      # - docker run certbot/certbot:latest certonly --dry-run --email "$CERTBOT_EMAIL" -n --webroot -w $ACME_WWWROOT -d $DOMAIN -d www.$DOMAIN
       - "init.sh"
 
   nginx:
@@ -26,9 +27,9 @@ services:
     networks:
       - back
     volumes:
-      - ./etc/nginx/conf.d:/etc/nginx/conf.d
-      - ./etc/ssl/dhparams.pem:/etc/ssl/dhparams.pem
-      - ./var/www/html:/var/www/html
+      - etc-nginx-conf.d:/etc/nginx/conf.d
+      - etc-ssl:/etc/ssl
+      - var-www-html:/var/www/html
     logging:
       driver: json-file
       options:
@@ -39,7 +40,7 @@ services:
       - "443:443"
 
   certbot:
-    image: certbot/certbot:latest
+    image: certbot/certbot
     container_name: certbot
     env_file: .env
     restart: on-failure
@@ -50,8 +51,15 @@ services:
     networks:
       - back
     volumes:
-      - ./etc/letsencrypt:/etc/letsencrypt
-      - ./var/log/letsencrypt:/var/log/letsencrypt
+      - etc-letsencrypt:/etc/letsencrypt
+      - var-log-letsencrypt:/var/log/letsencrypt
+
+volumes:
+  etc-nginx-conf.d:
+  etc-ssl:
+  var-www-html:
+  etc-letsencrypt:
+  var-log-letsencrypt:
 
 networks:
   back:

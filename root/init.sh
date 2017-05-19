@@ -27,7 +27,8 @@ sudo chmod 700 -R /etc/letsencrypt/archive
 # We'll check only `fullchain.pem`
 if [ ! -f /etc/letsencrypt/live/$DOMAIN/fullchain.pem ]; then
   echo "[certbot] Init : $DOMAIN"
-  certbot certonly -n --agree-tos --renew-by-default --email "${CERTBOT_EMAIL}" --webroot -w ${ACME_WWWROOT:-/var/www/html} -d $DOMAIN -d www.$DOMAIN
+  docker exec -it $(docker ps -a -q --filter certbot/certbot) -n --agree-tos --renew-by-default --email "${CERTBOT_EMAIL}" --webroot -w ${ACME_WWWROOT:-/var/www/html} -d $DOMAIN -d www.$DOMAIN
+  # docker run certbot/certbot certonly -n --agree-tos --renew-by-default --email "${CERTBOT_EMAIL}" --webroot -w ${ACME_WWWROOT:-/var/www/html} -d $DOMAIN -d www.$DOMAIN
 else
   echo "[certbot] Already exist certificate, will skip init."
   ls /etc/letsencrypt/live/$DOMAIN

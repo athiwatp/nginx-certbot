@@ -1,6 +1,9 @@
 # nginx-certbot
 Automate `TLS/SSL` by `Certbot` with auto renewal via `Nginx` on `Ubuntu 16.04` (xenial)
 
+## Status
+- [ ] Proof of concept (NOT SUCCEED YET, DON'T USE!!!)
+
 ## Prerequisites
 - Your registered domain name for `DOMAIN`.
 - Domain name server pointed to your hosting.
