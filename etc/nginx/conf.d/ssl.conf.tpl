@@ -1,4 +1,15 @@
 server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+  server_name default_server;
+
+  # Redirect all HTTP requests to HTTPS with a 301 Moved Permanently response.
+  location / {
+    return 301 https://$host$request_uri;
+  }
+}
+
+server {
   listen 443 ssl http2 default_server;
   listen [::]:443 ssl http2 default_server;
   server_name default_server;
