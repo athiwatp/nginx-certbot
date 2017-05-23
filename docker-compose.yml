@@ -5,19 +5,23 @@ services:
     container_name: nginx-certbot
     env_file: .env
     image: rabbotio/nginx-certbot
-    restart: on-failure
     volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
       - etc-nginx-conf.d:/etc/nginx/conf.d
       - etc-ssl:/etc/ssl
-      - var-www-html:/var/www/html
+      - var-www:/var/www
       - etc-letsencrypt:/etc/letsencrypt
       - var-log-letsencrypt:/var/log/letsencrypt
-      - ./root:/root
+    depends_on:
+      - nginx
+      - certbot
     links:
       - nginx
       - certbot
-    command:
-      - "init.sh"
+    networks:
+      - back
+    deploy:
+      mode: global # exactly one container per swarm node
 
   nginx:
     image: nginx:alpine
@@ -29,7 +33,7 @@ services:
     volumes:
       - etc-nginx-conf.d:/etc/nginx/conf.d
       - etc-ssl:/etc/ssl
-      - var-www-html:/var/www/html
+      - var-www:/var/www
     logging:
       driver: json-file
       options:
@@ -43,11 +47,10 @@ services:
     image: certbot/certbot
     container_name: certbot
     env_file: .env
-    restart: on-failure
     environment:
       - DOMAIN=$DOMAIN
       - CERTBOT_EMAIL=$CERTBOT_EMAIL
-      - ACME_WWWROOT=${ACME_WWWROOT:-/var/www/html}
+      - ACME_WWWROOT=${ACME_WWWROOT:-/usr/share/nginx/html}
     networks:
       - back
     volumes:
@@ -57,7 +60,7 @@ services:
 volumes:
   etc-nginx-conf.d:
   etc-ssl:
-  var-www-html:
+  var-www:
   etc-letsencrypt:
   var-log-letsencrypt:
 

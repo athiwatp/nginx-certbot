@@ -1,17 +1,17 @@
 FROM alpine
-MAINTAINER katopz <katopz@gmail.com>
 
 # Nginx's config
 RUN mkdir -p /etc/nginx/conf.d
 COPY etc/nginx/conf.d /etc/nginx/conf.d
+
+# Script
 COPY root /root
 
-# Nginx's default page
-RUN mkdir -p /var/www/html
-COPY var/www/html /var/www/html
+# Renewal
+COPY root/renew.sh /etc/cron.daily/renew.sh
+RUN chmod u+x /etc/cron.daily/renew.sh
 
 # Entry
 WORKDIR /root
 
-ENTRYPOINT [ "sh" ]
-# CMD [".", "./init.sh"]
+ENTRYPOINT [ "/root/init.sh" ]

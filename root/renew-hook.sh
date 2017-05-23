@@ -1,0 +1,1 @@
+echo $(date)'|[Renewal] : Succeed.' >> /var/log/letsencrypt/daily.log
