@@ -19,8 +19,6 @@ services:
       - certbot
     networks:
       - back
-    deploy:
-      mode: global # exactly one container per swarm node
 
   nginx:
     image: nginx:alpine
