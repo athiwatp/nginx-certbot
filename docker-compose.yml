@@ -6,12 +6,11 @@ services:
     env_file: .env
     image: rabbotio/nginx-certbot
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - etc-nginx-conf.d:/etc/nginx/conf.d
-      - etc-ssl:/etc/ssl
-      - var-www:/var/www
-      - etc-letsencrypt:/etc/letsencrypt
-      - var-log-letsencrypt:/var/log/letsencrypt
+      - /etc/nginx/conf.d:/etc/nginx/conf.d
+      - /etc/ssl:/etc/ssl
+      - /var/www:/var/www
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/log/letsencrypt:/var/log/letsencrypt
     depends_on:
       - nginx
       - certbot
@@ -31,9 +30,9 @@ services:
     networks:
       - back
     volumes:
-      - etc-nginx-conf.d:/etc/nginx/conf.d
-      - etc-ssl:/etc/ssl
-      - var-www:/var/www
+      - /etc/nginx/conf.d:/etc/nginx/conf.d
+      - /etc/ssl:/etc/ssl
+      - /var/www:/var/www
     logging:
       driver: json-file
       options:
@@ -54,15 +53,8 @@ services:
     networks:
       - back
     volumes:
-      - etc-letsencrypt:/etc/letsencrypt
-      - var-log-letsencrypt:/var/log/letsencrypt
-
-volumes:
-  etc-nginx-conf.d:
-  etc-ssl:
-  var-www:
-  etc-letsencrypt:
-  var-log-letsencrypt:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/log/letsencrypt:/var/log/letsencrypt
 
 networks:
   back:
