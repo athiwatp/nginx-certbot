@@ -12,7 +12,7 @@ COPY usr/local/bin/entrypoint.sh /usr/local/bin/entrypoint.sh
 # Excutable
 RUN chmod u+x /usr/local/bin/dhparam.sh
 RUN chmod u+x /usr/local/bin/new.sh
-RUN chmod u+x /bin/entrypoint.sh
+RUN chmod u+x /usr/local/bin/entrypoint.sh
 
 # Renewal
 COPY etc/cron.daily/renew.sh /etc/cron.daily/renew.sh
