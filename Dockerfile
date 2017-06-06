@@ -5,14 +5,15 @@ RUN mkdir -p /etc/nginx/conf.d
 COPY etc/nginx/conf.d /etc/nginx/conf.d
 
 # Script
-COPY root/dhparam.sh /root/dhparam.sh
-COPY root/new.sh /root/new.sh
+COPY usr/local/bin/dhparam.sh /usr/local/bin/dhparam.sh
+COPY usr/local/bin/new.sh /usr/local/bin/new.sh
+COPY usr/local/bin/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 # Renewal
-COPY root/renew.sh /etc/cron.daily/renew.sh
+COPY etc/cron.daily/renew.sh /etc/cron.daily/renew.sh
 RUN chmod u+x /etc/cron.daily/renew.sh
 
-# Entry
-WORKDIR /root
+WORKDIR /usr/local/bin
 
-ENTRYPOINT [ "/root/init.sh" ]
+# Entry
+ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
