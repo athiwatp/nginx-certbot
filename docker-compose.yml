@@ -1,7 +1,6 @@
 version: '3'
 services:
   nginx-certbot:
-    build: .
     container_name: nginx-certbot
     env_file: .env
     image: rabbotio/nginx-certbot
@@ -19,6 +18,9 @@ services:
       - certbot
     networks:
       - back
+    command:
+      - . /usr/local/dhparam.sh
+      - . /usr/local/new.sh
 
   nginx:
     image: nginx:alpine
