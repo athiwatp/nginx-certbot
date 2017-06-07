@@ -19,8 +19,8 @@ services:
     networks:
       - back
     command:
-      - . /usr/local/dhparam.sh
-      - . /usr/local/new.sh
+      - . /usr/local/bin/dhparam.sh
+      - . /usr/local/bin/new.sh
 
   nginx:
     image: nginx:alpine

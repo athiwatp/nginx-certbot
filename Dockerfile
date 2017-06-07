@@ -21,4 +21,4 @@ RUN chmod u+x /etc/cron.daily/renew.sh
 WORKDIR /usr/local/bin
 
 # Entry
-ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
+ENTRYPOINT [ "entrypoint.sh" ]
