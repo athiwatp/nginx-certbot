@@ -31,8 +31,8 @@ Automate `TLS/SSL` by `Certbot` with auto renewal via `Nginx` on `Ubuntu 16.04` 
 1. Enable `SSL` by apply `https.conf` with `DOMAIN` environment variables.
 1. Disable `http.conf` config.
 1. Validate and restart `nginx`.
-1. Copy renewal script `/root/renew.sh` to daily cron job.
-1. Make `/root/renew.sh` executable.
+1. Copy renewal script `./etc/cron.daily/renew.sh` to daily cron job.
+1. Make `/etc/cron.daily/renew.sh` executable.
 
 ## What happen while renewal
 1. Log to `/var/log/letsencrypt/daily.log`

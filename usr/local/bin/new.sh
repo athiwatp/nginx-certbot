@@ -49,7 +49,7 @@ sudo chmod 600 -R /etc/letsencrypt/archive /etc/letsencrypt/live/$DOMAIN/privkey
 
 # [CRON]
 # Renewal, Add to daily cron
-cp /root/renew.sh /etc/cron.daily/renew.sh
+cp ./etc/cron.daily/renew.sh /etc/cron.daily/renew.sh
 
 # Ensure excutable
-chmod u+x /etc/cron.d/renew.sh
+chmod u+x /etc/cron.daily/renew.sh
